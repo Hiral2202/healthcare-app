@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Available Slots</title>
+</head>
+<body>
+<h1>Available Slots</h1>
+
+<form method="get" action="/">
+    Specialty: <input type="text" name="specialty" value="{{ specialty }}">
+    Date: <input type="date" name="date" value="{{ date }}">
+    <button type="submit">Filter</button>
+</form>
+
+{% if message %}
+<p style="color: green;">{{ message }}</p>
+{% endif %}
+
+<table style="border: 1;">
+    <tr>
+        <th>Doctor</th>
+        <th>Specialty</th>
+        <th>Date & Time</th>
+        <th>Action</th>
+    </tr>
+    {% for slot in slots %}
+    <tr>
+        <td>{{ slot.doctor.name }}</td>
+        <td>{{ slot.doctor.specialty }}</td>
+        <td>{{ slot.datetime }}</td>
+        <td>
+            <form action="/book" method="post">
+                <input type="hidden" name="slot_id" value="{{ slot.id }}">
+                Name: <input type="text" name="patient_name" required>
+                Email: <input type="email" name="patient_email" required>
+                <button type="submit">Book</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>
